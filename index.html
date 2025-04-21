@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surwa Community and Education Development Initiative</title>
+  <meta name="description" content="Surwa Community and Education Development Initiative is dedicated to empowering communities through education, sustainable development, and community engagement.">
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Configure Tailwind with new color scheme -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#e6f0ff',
+              100: '#cce0ff',
+              200: '#99c2ff',
+              300: '#66a3ff',
+              400: '#3385ff',
+              500: '#0066ff', // blue
+              600: '#0052cc',
+              700: '#003d99',
+              800: '#002966',
+              900: '#001433',
+            },
+            secondary: {
+              50: '#ffebee',
+              100: '#ffcdd2',
+              200: '#ef9a9a',
+              300: '#e57373',
+              400: '#ef5350',
+              500: '#f44336', // red
+              600: '#e53935',
+              700: '#d32f2f',
+              800: '#c62828',
+              900: '#b71c1c',
+            },
+            accent: {
+              50: '#fff3e0',
+              100: '#ffe0b2',
+              200: '#ffcc80',
+              300: '#ffb74d',
+              400: '#ffa726',
+              500: '#ff9800', // orange
+              600: '#fb8c00',
+              700: '#f57c00',
+              800: '#ef6c00',
+              900: '#e65100',
+            },
+            success: {
+              50: '#f1f8e9',
+              100: '#dcedc8',
+              200: '#c5e1a5',
+              300: '#aed581',
+              400: '#9ccc65',
+              500: '#8bc34a', // light green
+              600: '#7cb342',
+              700: '#689f38',
+              800: '#558b2f',
+              900: '#33691e',
+            }
+          },
+        },
+      },
+    }
+  </script>
+  
+  <!-- AOS Animation Library -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  
+  <!-- EmailJS for email functionality -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  
+  <!-- Custom Styles -->
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    .bg-gradient-hero {
+      background: linear-gradient(to bottom right, #e6f0ff, #cce0ff);
+    }
+    
+    .dark .bg-gradient-hero {
+      background: linear-gradient(to bottom right, #002966, #001433);
+    }
+    
+    .theme-transition {
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+    
+    .carousel-container {
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .carousel {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    
+    .carousel-item {
+      min-width: 100%;
+    }
+    
+    .carousel-indicators {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    
+    .carousel-indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #ccc;
+      margin: 0 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .carousel-indicator.active {
+      background-color: #0066ff;
+    }
+    
+    .dark .carousel-indicator.active {
+      background-color: #3385ff;
+    }
+    
+    /* Ensure theme toggle buttons are always visible */
+    #theme-toggle, #mobile-theme-toggle {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      z-index: 100 !important;
+    }
+    
+    /* Add a floating theme toggle button that's always visible */
+    #floating-theme-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #0066ff;
+      color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    #floating-theme-toggle:hover {
+      transform: scale(1.1);
+      background-color: #0052cc;
+    }
+    
+    .dark body {
+      background-color: #1a1a1a;
+      color: #f9fafb;
+    }
+    
+    /* Hide mobile theme toggle on desktop */
+    @media (min-width: 768px) {
+      #mobile-theme-toggle {
+        display: none !important;
+      }
+    }
+    
+    /* Hide desktop theme toggle on mobile */
+    @media (max-width: 767px) {
+      #theme-toggle {
+        display: none !important;
+      }
+    }
+    
+    /* Form validation styles */
+    .form-input.error {
+      border-color: #f44336;
+    }
+    
+    .error-message {
+      color: #f44336;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+    
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 1rem;
+      border-radius: 0.375rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .toast.success {
+      background-color: #8bc34a;
+      color: white;
+    }
+    
+    .toast.error {
+      background-color: #f44336;
+      color: white;
+    }
+    
+    .toast.show {
+      opacity: 1;
+    }
+
+    /* Hide floating theme toggle on mobile */
+    @media (max-width: 767px) {
+      #floating-theme-toggle {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-white dark:bg-gray-900 theme-transition">
+  <!-- Navigation -->
+  <header class="fixed w-full bg-white dark:bg-gray-800 shadow-md z-50 theme-transition">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="index.html" class="flex items-center space-x-4">
+        <img src="assets/logo.png" alt="Surwa Logo" class="h-30 w-40 object-cover" />
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center space-x-8">
+        <a href="index.html" class="text-sm font-medium text-primary-600 dark:text-primary-400 transition-colors">Home</a>
+        <a href="about.html" class="text-sm font-medium hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400 transition-colors">About</a>
+        <a href="mission.html" class="text-sm font-medium hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400 transition-colors">Mission</a>
+        <a href="gallery.html" class="text-sm font-medium hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400 transition-colors">Gallery</a>
+        <a href="events.html" class="text-sm font-medium hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400 transition-colors">Events</a>
+        <a href="contact.html" class="text-sm font-medium hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400 transition-colors">Contact</a>
+        <a href="#donate" class="bg-secondary-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-secondary-600 transition-colors">Donate Now</a>
+      </nav>
+
+      <!-- Add the theme toggle button outside the nav element to ensure it's not affected by any nav styling -->
+      <div class="flex items-center ml-4">
+        <button id="theme-toggle" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 border-2 border-primary-500 focus:outline-none flex items-center justify-center w-10 h-10 shadow-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" onclick="toggleTheme()">
+          <!-- Sun icon for dark mode -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <!-- Moon icon for light mode -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Mobile menu button and theme toggle -->
+      <div class="md:hidden flex items-center space-x-4">
+        <button id="mobile-theme-toggle" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 border-2 border-primary-500 focus:outline-none flex items-center justify-center w-10 h-10 shadow-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" onclick="toggleTheme()">
+          <!-- Sun icon for dark mode -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <!-- Moon icon for light mode -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+        
+        <button class="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 focus:outline-none" id="mobile-menu-button">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div class="md:hidden bg-white dark:bg-gray-800 hidden theme-transition" id="mobile-menu">
+      <div class="px-4 py-2 space-y-1">
+        <a href="index.html" class="block py-2 text-sm font-medium text-primary-600 dark:text-primary-400 transition-colors">Home</a>
+        <a href="about.html" class="block py-2 text-sm font-medium hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400 transition-colors">About</a>
+        <a href="mission.html" class="block py-2 text-sm font-medium hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400 transition-colors">Mission</a>
+        <a href="gallery.html" class="block py-2 text-sm font-medium hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400 transition-colors">Gallery</a>
+        <a href="events.html" class="block py-2 text-sm font-medium hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400 transition-colors">Events</a>
+        <a href="contact.html" class="block py-2 text-sm font-medium hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400 transition-colors">Contact</a>
+        <a href="#donate" class="block bg-secondary-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-secondary-600 transition-colors mt-2">Donate Now</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section with Carousel -->
+  <section class="pt-24 pb-10 md:pt-32 md:pb-16 bg-gradient-hero dark:bg-gradient-to-br dark:from-primary-900 dark:to-gray-900 theme-transition">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row items-center">
+        <div data-aos="fade-right" class="md:w-1/2 mb-10 md:mb-0">
+          <h1 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-6">Empowering Communities Through Education</h1>
+          <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">
+            Surwa Community and Education Development Initiative is dedicated to creating positive change through education, sustainable development, and community engagement.
+          </p>
+          <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+            <a href="#about" class="bg-primary-500 text-white px-6 py-3 rounded-md text-center text-sm font-medium hover:bg-primary-600 transition-colors">
+              Learn More
+            </a>
+            <a href="contact.html" class="bg-white text-primary-600 border border-primary-500 px-6 py-3 rounded-md text-center text-sm font-medium hover:bg-gray-100 transition-colors">
+              Get Involved
+            </a>
+          </div>
+        </div>
+        <div data-aos="fade-left" class="md:w-1/2">
+          <div class="carousel-container rounded-lg overflow-hidden shadow-xl">
+            <div class="carousel">
+              <div class="carousel-item">
+                <img src="assets/carousel-two.png" alt="Community Empowerment" class="w-full h-full object-cover">
+              </div>
+              <div class="carousel-item">
+                <img src="assets/carousel-four.png" alt="Education Initiatives" class="w-full h-full object-cover">
+              </div>
+              <div class="carousel-item">
+                <img src="assets/carousel-one.png" alt="Sustainable Development" class="w-full h-full object-cover">
+              </div>
+              <div class="carousel-item">
+                <img src="assets/carousel-three.png" alt="Youth Empowerment" class="w-full h-full object-cover">
+              </div>
+              <div class="carousel-item">
+                <img src="assets/carousel-five.png" alt="Training" class="w-full h-full object-cover">
+              </div>
+            </div>
+            <div class="carousel-indicators">
+              <div class="carousel-indicator active" data-index="0"></div>
+              <div class="carousel-indicator" data-index="1"></div>
+              <div class="carousel-indicator" data-index="2"></div>
+              <div class="carousel-indicator" data-index="3"></div>
+              <div class="carousel-indicator" data-index="4"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-16 md:py-24">
+    <div class="container mx-auto px-4">
+      <div data-aos="fade-up" class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">About Us</h2>
+        <div class="w-20 h-1 bg-primary-500 mx-auto mb-6"></div>
+        <p class="max-w-3xl mx-auto text-gray-600 dark:text-gray-400">
+          Learn about our organization and the impact we're making in our community.
+        </p>
+      </div>
+
+      <div class="flex flex-col md:flex-row items-center">
+        <div data-aos="fade-right" class="md:w-1/2 mb-10 md:mb-0 md:pr-12">
+          <h3 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">Our Story</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Surwa Community and Education Development Initiative (SCEDI) is founded in 2020 and registered with Corporate Affairs Commission in 2024 as a local non-government and non-profit organization to promote community and education development through collaborative partnerships with local communities and government by employing innovative approaches and self-help initiatives to create a sustainable impact.
+          </p>
+        </div>
+        <div data-aos="fade-left" class="md:w-1/2">
+          <div class="grid grid-cols-2 gap-4">
+            <div class="rounded-lg overflow-hidden shadow-md">
+              <img src="https://placehold.co/600x400/e6f0ff/0066ff?text=Education" alt="Education programs" class="w-full h-full object-cover">
+            </div>
+            <div class="rounded-lg overflow-hidden shadow-md">
+              <img src="https://placehold.co/600x400/ffebee/f44336?text=Community" alt="Community engagement" class="w-full h-full object-cover">
+            </div>
+            <div class="rounded-lg overflow-hidden shadow-md">
+              <img src="https://placehold.co/600x400/fff3e0/ff9800?text=Sustainability" alt="Sustainable development" class="w-full h-full object-cover">
+            </div>
+            <div class="rounded-lg overflow-hidden shadow-md">
+              <img src="https://placehold.co/600x400/f1f8e9/8bc34a?text=Youth" alt="Youth empowerment" class="w-full h-full object-cover">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Programs Section -->
+  <section class="py-16 md:py-24 bg-gray-50 dark:bg-gray-800 theme-transition">
+    <div class="container mx-auto px-4">
+      <div data-aos="fade-up" class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">Our Programs</h2>
+        <div class="w-20 h-1 bg-secondary-500 mx-auto mb-6"></div>
+        <p class="max-w-3xl mx-auto text-gray-600 dark:text-gray-400">
+          Discover the various programs and initiatives we run to create positive change in our community.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div data-aos="fade-up" class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden">
+          <div class="h-48 bg-primary-500 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path d="M12 14l9-5-9-5-9 5 9 5z" />
+              <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+            </svg>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Education Support</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">
+              Training/Workshop, educational resources, Research, Learning and Adoptation.
+            </p>
+            <a href="mission.html#education" class="inline-flex items-center text-primary-600 dark:text-primary-400 font-medium hover:text-primary-700 dark:hover:text-primary-300 transition-colors">
+              Learn More 
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div data-aos="fade-up" data-aos-delay="100" class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden">
+          <div class="h-48 bg-secondary-500 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Community Engagement</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">
+              Bringing people together to address local challenges and create positive change.
+            </p>
+            <a href="mission.html#community" class="inline-flex items-center text-secondary-600 dark:text-secondary-400 font-medium hover:text-secondary-700 dark:hover:text-secondary-300 transition-colors">
+              Learn More 
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div data-aos="fade-up" data-aos-delay="200" class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden">
+          <div class="h-48 bg-accent-500 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h.5A2.5 2.5 0 0020 5.5v-1.5M8 3.935V2.5A2.5 2.5 0 0110.5 0h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h.5A2.5 2.5 0 0122 2.5v1.5" />
+            </svg>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Sustainable Development</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">
+              Promoting practices that meet present needs without compromising future generations.
+            </p>
+            <a href="mission.html#sustainable" class="inline-flex items-center text-accent-600 dark:text-accent-400 font-medium hover:text-accent-700 dark:hover:text-accent-300 transition-colors">
+              Learn More 
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-  viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div data-aos="fade-up" data-aos-delay="300" class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden">
+          <div class="h-48 bg-success-500 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+            </svg>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Youth Empowerment</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">
+              Investing in young people as the leaders and change-makers of tomorrow.
+            </p>
+            <a href="mission.html#youth" class="inline-flex items-center text-success-600 dark:text-success-400 font-medium hover:text-success-700 dark:hover:text-success-300 transition-colors">
+              Learn More 
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Impact Section -->
+  <section class="py-16 md:py-24">
+    <div class="container mx-auto px-4">
+      <div data-aos="fade-up" class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">Our Impact</h2>
+        <div class="w-20 h-1 bg-accent-500 mx-auto mb-6"></div>
+        <p class="max-w-3xl mx-auto text-gray-600 dark:text-gray-400">
+          See the difference we're making in our community through our various programs and initiatives.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div data-aos="fade-up" class="text-center">
+          <div class="text-4xl md:text-5xl font-bold text-primary-500 mb-2">200+</div>
+          <p class="text-gray-600 dark:text-gray-400">Education Supported</p>
+        </div>
+        <div data-aos="fade-up" data-aos-delay="100" class="text-center">
+          <div class="text-4xl md:text-5xl font-bold text-secondary-500 mb-2">20+</div>
+          <p class="text-gray-600 dark:text-gray-400">Community Projects</p>
+        </div>
+        <div data-aos="fade-up" data-aos-delay="200" class="text-center">
+          <div class="text-4xl md:text-5xl font-bold text-accent-500 mb-2">4+</div>
+          <p class="text-gray-600 dark:text-gray-400">Years of Service</p>
+        </div>
+        <div data-aos="fade-up" data-aos-delay="300" class="text-center">
+          <div class="text-4xl md:text-5xl font-bold text-success-500 mb-2">50+</div>
+          <p class="text-gray-600 dark:text-gray-400">Volunteers</p>
+        </div>
+      </div>
+
+      <div data-aos="fade-up" class="mt-12 text-center">
+        <a href="about.html" class="bg-accent-500 text-white px-6 py-3 rounded-md text-sm font-medium hover:bg-accent-600 transition-colors">
+          Learn More About Our Impact
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="py-16 md:py-24 bg-gray-50 dark:bg-gray-800 theme-transition">
+    <div class="container mx-auto px-4">
+      <div data-aos="fade-up" class="max-w-3xl mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">Stay Updated</h2>
+        <div class="w-20 h-1 bg-success-500 mx-auto mb-6"></div>
+        <p class="text-gray-600 dark:text-gray-400 mb-8">
+          Subscribe to our newsletter to receive updates on our programs, events, and impact.
+        </p>
+        
+        <form id="newsletter-form" class="max-w-md mx-auto">
+          <div class="flex flex-col sm:flex-row gap-4">
+            <div class="flex-grow">
+              <input type="text" id="name" name="name" placeholder="Your Name" class="form-input w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-success-500 dark:bg-gray-700 dark:text-white">
+              <div class="error-message" id="name-error"></div>
+            </div>
+            <div class="flex-grow">
+              <input type="email" id="email" name="email" placeholder="Your Email" class="form-input w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-success-500 dark:bg-gray-700 dark:text-white">
+              <div class="error-message" id="email-error"></div>
+            </div>
+            <button type="submit" class="bg-success-500 text-white px-6 py-2 rounded-md text-sm font-medium hover:bg-success-600 transition-colors">
+              Subscribe
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Events Section -->
+  <section class="py-16 md:py-24">
+    <div class="container mx-auto px-4">
+      <div data-aos="fade-up" class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">Upcoming Events</h2>
+        <div class="w-20 h-1 bg-primary-500 mx-auto mb-6"></div>
+        <p class="max-w-3xl mx-auto text-gray-600 dark:text-gray-400">
+          Join us at our upcoming events and activities to make a difference in our community.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div data-aos="fade-up" class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden">
+          <div class="relative h-48">
+            <img src="https://placehold.co/800x600/e6f0ff/0066ff?text=Community+Clean-up" alt="Community Clean-up Day" class="w-full h-full object-cover">
+            <div class="absolute top-4 left-4 bg-primary-500 text-white px-3 py-1 rounded-md text-sm font-medium">
+              June 15, 2025
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Community Clean-up Day</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">
+              Join us for a day of cleaning up our local park and making it beautiful for everyone to enjoy.
+            </p>
+            <a href="events.html" class="inline-flex items-center text-primary-600 dark:text-primary-400 font-medium hover:text-primary-700 dark:hover:text-primary-300 transition-colors">
+              Learn More 
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div data-aos="fade-up" data-aos-delay="100" class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden">
+          <div class="relative h-48">
+            <img src="https://placehold.co/800x600/ffebee/f44336?text=Environmental+Workshop" alt="Environmental Workshop" class="w-full h-full object-cover">
+            <div class="absolute top-4 left-4 bg-secondary-500 text-white px-3 py-1 rounded-md text-sm font-medium">
+              July 5, 2025
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Environmental Workshop</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">
+              Learn about sustainable practices you can implement in your daily life to reduce your environmental footprint.
+            </p>
+            <a href="events.html" class="inline-flex items-center text-secondary-600 dark:text-secondary-400 font-medium hover:text-secondary-700 dark:hover:text-secondary-300 transition-colors">
+              Learn More 
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div data-aos="fade-up" class="mt-12 text-center">
+        <a href="events.html" class="bg-primary-500 text-white px-6 py-3 rounded-md text-sm font-medium hover:bg-primary-600 transition-colors">
+          View All Events
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-16 md:py-24 bg-primary-500 dark:bg-primary-700 text-white">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row items-center justify-between">
+        <div data-aos="fade-right" class="md:w-2/3 mb-8 md:mb-0">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">Join Us in Our Mission</h2>
+          <p class="text-primary-50 text-lg">
+            Whether through volunteering, donating, or spreading the word, your support helps us create lasting positive change in our community.
+          </p>
+        </div>
+        <div data-aos="fade-left" class="flex flex-col sm:flex-row gap-4">
+          <a href="contact.html#volunteer" class="bg-white text-primary-600 px-6 py-3 rounded-md text-center text-sm font-medium hover:bg-primary-50 transition-colors">
+            Volunteer
+          </a>
+          <a href="#donate" class="border-2 border-white text-white px-6 py-3 rounded-md text-center text-sm font-medium hover:bg-primary-600 transition-colors">
+            Donate
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Us Section -->
+  <section id="quick-contact" class="py-16 md:py-24">
+    <div class="container mx-auto px-4">
+      <div data-aos="fade-up" class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">Get in Touch</h2>
+        <div class="w-20 h-1 bg-secondary-500 mx-auto mb-6"></div>
+        <p class="max-w-3xl mx-auto text-gray-600 dark:text-gray-400">
+          Have a question or want to get involved? Send us a message and we'll get back to you as soon as possible.
+        </p>
+      </div>
+
+      <div class="max-w-3xl mx-auto">
+        <form id="contact-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label for="contact-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Name</label>
+            <input type="text" id="contact-name" name="name" class="form-input w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary-500 dark:bg-gray-700 dark:text-white" placeholder="Your full name">
+            <div class="error-message" id="contact-name-error"></div>
+          </div>
+          <div>
+            <label for="contact-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Email</label>
+            <input type="email" id="contact-email" name="email" class="form-input w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary-500 dark:bg-gray-700 dark:text-white" placeholder="Your email address">
+            <div class="error-message" id="contact-email-error"></div>
+          </div>
+          <div class="md:col-span-2">
+            <label for="contact-subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Subject</label>
+            <input type="text" id="contact-subject" name="subject" class="form-input w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary-500 dark:bg-gray-700 dark:text-white" placeholder="How can we help?">
+            <div class="error-message" id="contact-subject-error"></div>
+          </div>
+          <div class="md:col-span-2">
+            <label for="contact-message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Message</label>
+            <textarea id="contact-message" name="message" rows="4" class="form-input w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary-500 dark:bg-gray-700 dark:text-white" placeholder="Your message here..."></textarea>
+            <div class="error-message" id="contact-message-error"></div>
+          </div>
+          <div class="md:col-span-2 text-center">
+            <button type="submit" class="bg-secondary-500 text-white px-8 py-3 rounded-md text-sm font-medium hover:bg-secondary-600 transition-colors">
+              Send Message
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 dark:bg-gray-900 text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center space-x-2 mb-4">
+            <div class="relative h-30 w-40 bg-white flex items-center justify-center overflow-hidden">
+              <img src="assets/logo.png" alt="Surwa Initiative Logo" class="h-full w-full object-cover" />
+            </div>
+          </div>
+          <p class="text-gray-400 mb-4">
+            Surwa Community and Education Development Initiative is dedicated to empowering communities through education, sustainable development, and community engagement.
+          </p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+              </svg>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+              </svg>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li>
+              <a href="index.html" class="text-gray-400 hover:text-white transition-colors">Home</a>
+            </li>
+            <li>
+              <a href="about.html" class="text-gray-400 hover:text-white transition-colors">About</a>
+            </li>
+            <li>
+              <a href="mission.html" class="text-gray-400 hover:text-white transition-colors">Mission</a>
+            </li>
+            <li>
+              <a href="gallery.html" class="text-gray-400 hover:text-white transition-colors">Gallery</a>
+            </li>
+            <li>
+              <a href="events.html" class="text-gray-400 hover:text-white transition-colors">Events</a>
+            </li>
+            <li>
+              <a href="contact.html" class="text-gray-400 hover:text-white transition-colors">Contact</a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Programs</h3>
+          <ul class="space-y-2">
+            <li>
+              <a href="mission.html#education" class="text-gray-400 hover:text-white transition-colors">Education Support</a>
+            </li>
+            <li>
+              <a href="mission.html#community" class="text-gray-400 hover:text-white transition-colors">Community Engagement</a>
+            </li>
+            <li>
+              <a href="mission.html#sustainable" class="text-gray-400 hover:text-white transition-colors">Sustainable Development</a>
+            </li>
+            <li>
+              <a href="mission.html#youth" class="text-gray-400 hover:text-white transition-colors">Youth Empowerment</a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Contact</h3>
+          <ul class="space-y-2">
+            <li class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-500 mt-1 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span class="text-gray-400">Abba Ibrahim Housing Estate along Gujba Road, Damaturu Yobe State</span>
+            </li>
+            <li class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-secondary-500 mt-1 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              <span class="text-gray-400">info@surwainitiative.org</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <p class="text-gray-400 text-sm mb-4 md:mb-0">
+          &copy; <script>document.write(new Date().getFullYear())</script> Surwa Community and Education Development Initiative. All rights reserved.
+        </p>
+        <div class="flex space-x-6">
+          <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</a>
+          <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <div id="toast-message"></div>
+  </div>
+
+  <!-- Floating Theme Toggle Button -->
+  <div id="floating-theme-toggle" onclick="toggleTheme()">
+    <!-- Sun icon for dark mode -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+    </svg>
+    <!-- Moon icon for light mode -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+    </svg>
+  </div>
+
+  <!-- AOS Animation Library -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+  <!-- Main JavaScript -->
+  <script>
+    // Initialize AOS animation library
+    AOS.init({
+      duration: 800,
+      easing: 'ease-in-out',
+      once: true
+    });
+    
+    // Initialize EmailJS
+    (function() {
+      emailjs.init("YOUR_USER_ID"); // Replace with your EmailJS user ID
+    })();
+    
+    // Carousel functionality
+    const carousel = document.querySelector('.carousel');
+    const carouselItems = document.querySelectorAll('.carousel-item');
+    const indicators = document.querySelectorAll('.carousel-indicator');
+    let currentIndex = 0;
+    const itemCount = carouselItems.length;
+    
+    function updateCarousel() {
+      carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+      
+      // Update indicators
+      indicators.forEach((indicator, index) => {
+        if (index === currentIndex) {
+          indicator.classList.add('active');
+        } else {
+          indicator.classList.remove('active');
+        }
+      });
+    }
+    
+    // Auto-advance carousel
+    let carouselInterval = setInterval(() => {
+      currentIndex = (currentIndex + 1) % itemCount;
+      updateCarousel();
+    }, 5000);
+    
+    // Click on indicators
+    indicators.forEach((indicator, index) => {
+      indicator.addEventListener('click', () => {
+        currentIndex = index;
+        updateCarousel();
+        
+        // Reset interval
+        clearInterval(carouselInterval);
+        carouselInterval = setInterval(() => {
+          currentIndex = (currentIndex + 1) % itemCount;
+          updateCarousel();
+        }, 5000);
+      });
+    });
+    
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+    
+    // Close mobile menu when clicking on a link
+    const mobileLinks = mobileMenu.querySelectorAll('a');
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
+    // Theme toggle functionality
+    function toggleTheme() {
+      console.log("Theme toggle called");
+      const isDark = document.documentElement.classList.contains("dark");
+      if (isDark) {
+        document.documentElement.classList.remove("dark");
+        document.body.classList.remove("dark");
+        localStorage.setItem("theme", "light");
+      } else {
+        document.documentElement.classList.add("dark");
+        document.body.classList.add("dark");
+        localStorage.setItem("theme", "dark");
+      }
+    }
+    
+    // Check for saved theme preference or use system preference
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+      if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+        document.documentElement.classList.add('dark');
+        document.body.classList.add('dark');
+      }
+      
+      console.log("Theme initialized");
+      
+      // Initialize carousel
+      updateCarousel();
+    });
+    
+    // Form validation and submission for newsletter
+    const newsletterForm = document.getElementById('newsletter-form');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const nameError = document.getElementById('name-error');
+    const emailError = document.getElementById('email-error');
+    
+    newsletterForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Reset errors
+      nameError.textContent = '';
+      emailError.textContent = '';
+      nameInput.classList.remove('error');
+      emailInput.classList.remove('error');
+      
+      let isValid = true;
+      
+      // Validate name
+      if (nameInput.value.trim() === '') {
+        nameError.textContent = 'Name is required';
+        nameInput.classList.add('error');
+        isValid = false;
+      }
+      
+      // Validate email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailInput.value.trim() === '') {
+        emailError.textContent = 'Email is required';
+        emailInput.classList.add('error');
+        isValid = false;
+      } else if (!emailRegex.test(emailInput.value.trim())) {
+        emailError.textContent = 'Please enter a valid email address';
+        emailInput.classList.add('error');
+        isValid = false;
+      }
+      
+      if (isValid) {
+        // Prepare data for EmailJS
+        const templateParams = {
+          from_name: nameInput.value.trim(),
+          from_email: emailInput.value.trim(),
+          subject: 'Newsletter Subscription',
+          message: `${nameInput.value.trim()} would like to subscribe to the newsletter.`
+        };
+        
+        // Send email using EmailJS
+        emailjs.send('service_id', 'template_id', templateParams)
+          .then(function(response) {
+            console.log('SUCCESS!', response.status, response.text);
+            showToast('Thank you for subscribing to our newsletter!', 'success');
+            newsletterForm.reset();
+          }, function(error) {
+            console.log('FAILED...', error);
+            showToast('Failed to send your subscription. Please try again later.', 'error');
+          });
+      }
+    });
+    
+    // Form validation and submission for contact form
+    const contactForm = document.getElementById('contact-form');
+    const contactNameInput = document.getElementById('contact-name');
+    const contactEmailInput = document.getElementById('contact-email');
+    const contactSubjectInput = document.getElementById('contact-subject');
+    const contactMessageInput = document.getElementById('contact-message');
+    const contactNameError = document.getElementById('contact-name-error');
+    const contactEmailError = document.getElementById('contact-email-error');
+    const contactSubjectError = document.getElementById('contact-subject-error');
+    const contactMessageError = document.getElementById('contact-message-error');
+    
+    if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Reset errors
+      contactNameError.textContent = '';
+      contactEmailError.textContent = '';
+      contactSubjectError.textContent = '';
+      contactMessageError.textContent = '';
+      contactNameInput.classList.remove('error');
+      contactEmailInput.classList.remove('error');
+      contactSubjectInput.classList.remove('error');
+      contactMessageInput.classList.remove('error');
+      
+      let isValid = true;
+      
+      // Validate name
+      if (contactNameInput.value.trim() === '') {
+        contactNameError.textContent = 'Name is required';
+        contactNameInput.classList.add('error');
+        isValid = false;
+      }
+      
+      // Validate email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (contactEmailInput.value.trim() === '') {
+        contactEmailError.textContent = 'Email is required';
+        contactEmailInput.classList.add('error');
+        isValid = false;
+      } else if (!emailRegex.test(contactEmailInput.value.trim())) {
+        contactEmailError.textContent = 'Please enter a valid email address';
+        contactEmailInput.classList.add('error');
+        isValid = false;
+      }
+      
+      // Validate subject
+      if (contactSubjectInput.value.trim() === '') {
+        contactSubjectError.textContent = 'Subject is required';
+        contactSubjectInput.classList.add('error');
+        isValid = false;
+      }
+      
+      // Validate message
+      if (contactMessageInput.value.trim() === '') {
+        contactMessageError.textContent = 'Message is required';
+        contactMessageInput.classList.add('error');
+        isValid = false;
+      }
+      
+      if (isValid) {
+        // Show loading state
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Sending...';
+        submitBtn.disabled = true;
+        
+        // Prepare data for EmailJS
+        const templateParams = {
+          from_name: contactNameInput.value.trim(),
+          from_email: contactEmailInput.value.trim(),
+          subject: contactSubjectInput.value.trim(),
+          message: contactMessageInput.value.trim()
+        };
+        
+        // Send email using EmailJS
+        emailjs.send('service_id', 'template_id', templateParams)
+          .then(function(response) {
+            console.log('SUCCESS!', response.status, response.text);
+            showToast('Thank you for your message! We will get back to you soon.', 'success');
+            contactForm.reset();
+          }, function(error) {
+            console.log('FAILED...', error);
+            showToast('Failed to send your message. Please try again later.', 'error');
+          })
+          .finally(function() {
+            submitBtn.innerHTML = originalBtnText;
+            submitBtn.disabled = false;
+          });
+      }
+    });
+  }
+    
+    // Toast notification function
+    function showToast(message, type) {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
+      
+      toast.className = 'toast';
+      toast.classList.add(type);
+      toastMessage.textContent = message;
+      
+      // Show toast
+      setTimeout(() => {
+        toast.classList.add('show');
+      }, 100);
+      
+      // Hide toast after 5 seconds
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 5000);
+    }
+  </script>
+</body>
+</html>

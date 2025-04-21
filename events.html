@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events - Surwa Community and Education Development Initiative</title>
+  <meta name="description" content="Join our upcoming events and see past initiatives by Surwa Community and Education Development Initiative.">
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Configure Tailwind with new color scheme -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#e6f0ff',
+              100: '#cce0ff',
+              200: '#99c2ff',
+              300: '#66a3ff',
+              400: '#3385ff',
+              500: '#0066ff', // blue
+              600: '#0052cc',
+              700: '#003d99',
+              800: '#002966',
+              900: '#001433',
+            },
+            secondary: {
+              50: '#ffebee',
+              100: '#ffcdd2',
+              200: '#ef9a9a',
+              300: '#e57373',
+              400: '#ef5350',
+              500: '#f44336', // red
+              600: '#e53935',
+              700: '#d32f2f',
+              800: '#c62828',
+              900: '#b71c1c',
+            },
+            accent: {
+              50: '#fff3e0',
+              100: '#ffe0b2',
+              200: '#ffcc80',
+              300: '#ffb74d',
+              400: '#ffa726',
+              500: '#ff9800', // orange
+              600: '#fb8c00',
+              700: '#f57c00',
+              800: '#ef6c00',
+              900: '#e65100',
+            },
+            success: {
+              50: '#f1f8e9',
+              100: '#dcedc8',
+              200: '#c5e1a5',
+              300: '#aed581',
+              400: '#9ccc65',
+              500: '#8bc34a', // light green
+              600: '#7cb342',
+              700: '#689f38',
+              800: '#558b2f',
+              900: '#33691e',
+            }
+          },
+        },
+      },
+    }
+  </script>
+  
+  <!-- AOS Animation Library -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  
+  <!-- Custom Styles -->
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    .bg-gradient-hero {
+      background: linear-gradient(to bottom right, #e6f0ff, #cce0ff);
+    }
+    
+    .dark .bg-gradient-hero {
+      background: linear-gradient(to bottom right, #002966, #001433);
+    }
+    
+    .theme-transition {
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+    
+    .event-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .event-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    /* Ensure theme toggle buttons are always visible */
+    #theme-toggle, #mobile-theme-toggle {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      z-index: 100 !important;
+    }
+    
+    /* Add a floating theme toggle button that's always visible */
+    #floating-theme-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #0066ff;
+      color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    #floating-theme-toggle:hover {
+      transform: scale(1.1);
+      background-color: #0052cc;
+    }
+    
+    .dark body {
+      background-color: #1a1a1a;
+      color: #f9fafb;
+    }
+    
+    /* Hide mobile theme toggle on desktop */
+    @media (min-width: 768px) {
+      #mobile-theme-toggle {
+        display: none !important;
+      }
+    }
+    
+    /* Hide desktop theme toggle on mobile */
+    @media (max-width: 767px) {
+      #theme-toggle {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-white dark:bg-gray-900 theme-transition">
+  <!-- Navigation -->
+  <header class="fixed w-full bg-white dark:bg-gray-800 shadow-md z-50 theme-transition">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="index.html" class="flex items-center space-x-4">
+        <img src="assets/logo.png" alt="Surwa Logo" class="h-30 w-40 object-cover" />
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center space-x-8">
+        <a href="index.html" class="text-sm font-medium hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400 transition-colors">Home</a>
+        <a href="about.html" class="text-sm font-medium hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400 transition-colors">About</a>
+        <a href="mission.html" class="text-sm font-medium hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400 transition-colors">Mission</a>
+        <a href="gallery.html" class="text-sm font-medium hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400 transition-colors">Gallery</a>
+        <a href="events.html" class="text-sm font-medium text-primary-600 dark:text-primary-400 transition-colors">Events</a>
+        <a href="contact.html" class="text-sm font-medium hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400 transition-colors">Contact</a>
+        <a href="#donate" class="bg-secondary-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-secondary-600 transition-colors">Donate Now</a>
+      </nav>
+
+      <!-- Add the theme toggle button outside the nav element to ensure it's not affected by any nav styling -->
+      <div class="flex items-center ml-4">
+        <button id="theme-toggle" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 border-2 border-primary-500 focus:outline-none flex items-center justify-center w-10 h-10 shadow-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" onclick="toggleTheme()">
+          <!-- Sun icon for dark mode -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <!-- Moon icon for light mode -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Mobile menu button and theme toggle -->
+      <div class="md:hidden flex items-center space-x-4">
+        <button id="mobile-theme-toggle" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 border-2 border-primary-500 focus:outline-none flex items-center justify-center w-10 h-10 shadow-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" onclick="toggleTheme()">
+          <!-- Sun icon for dark mode -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <!-- Moon icon for light mode -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+        
+        <button class="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 focus:outline-none" id="mobile-menu-button">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div class="md:hidden bg-white dark:bg-gray-800 hidden theme-transition" id="mobile-menu">
+      <div class="px-4 py-2 space-y-1">
+        <a href="index.html" class="block py-2 text-sm font-medium hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400 transition-colors">Home</a>
+        <a href="about.html" class="block py-2 text-sm font-medium hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400 transition-colors">About</a>
+        <a href="mission.html" class="block py-2 text-sm font-medium hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400 transition-colors">Mission</a>
+        <a href="gallery.html" class="block py-2 text-sm font-medium hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400 transition-colors">Gallery</a>
+        <a href="events.html" class="block py-2 text-sm font-medium text-primary-600 dark:text-primary-400 transition-colors">Events</a>
+        <a href="contact.html" class="block py-2 text-sm font-medium hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400 transition-colors">Contact</a>
+        <a href="#donate" class="block bg-secondary-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-secondary-600 transition-colors mt-2">Donate Now</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <section class="pt-24 pb-10 md:pt-32 md:pb-16 bg-gradient-hero dark:bg-gradient-to-br dark:from-primary-900 dark:to-gray-900 theme-transition">
+    <div class="container mx-auto px-4">
+      <div data-aos="fade-up" class="text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-4">Events & Activities</h1>
+        <div class="w-20 h-1 bg-secondary-500 mx-auto mb-6"></div>
+        <p class="max-w-3xl mx-auto text-lg text-gray-600 dark:text-gray-300">
+          Join us at our upcoming events and activities to make a difference in our community.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Event Filter Section -->
+  <section class="py-8 bg-white dark:bg-gray-900 theme-transition">
+    <div class="container mx-auto px-4">
+      <div data-aos="fade-up" class="flex flex-wrap justify-center gap-4 mb-8">
+        <button class="filter-btn active px-4 py-2 rounded-md text-sm font-medium bg-gray-200 dark:bg-gray-700 hover:bg-primary-100 dark:hover:bg-primary-900 transition-colors" data-filter="all">All Events</button>
+        <button class="filter-btn px-4 py-2 rounded-md text-sm font-medium bg-gray-200 dark:bg-gray-700 hover:bg-primary-100 dark:hover:bg-primary-900 transition-colors" data-filter="upcoming">Upcoming Events</button>
+        <button class="filter-btn px-4 py-2 rounded-md text-sm font-medium bg-gray-200 dark:bg-gray-700 hover:bg-primary-100 dark:hover:bg-primary-900 transition-colors" data-filter="past">Past Events</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Events Section -->
+  <section id="upcoming-events" class="py-8 bg-white dark:bg-gray-900 theme-transition">
+    <div class="container mx-auto px-4">
+      <div data-aos="fade-up" class="mb-8">
+        <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">Upcoming Events</h2>
+        <div class="w-20 h-1 bg-primary-500 mb-6"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+    
+        <!-- Event 1 -->
+        <div data-aos="fade-up" data-aos-delay="100" class="event-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden" data-category="upcoming">
+          <div class="relative h-48">
+            <img src="https://placehold.co/800x600/ffebee/f44336?text=Environmental+Workshop" alt="Environmental Workshop" class="w-full h-full object-cover">
+            <div class="absolute top-4 left-4 bg-secondary-500 text-white px-3 py-1 rounded-md text-sm font-medium">
+              July 5, 2025
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Environmental Workshop</h3>
+            <div class="flex items-center text-gray-600 dark:text-gray-300 mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span class="text-sm">Damaturu</span>
+            </div>
+            <div class="flex items-center text-gray-600 dark:text-gray-300 mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span class="text-sm">10:00 AM - 1:00 PM</span>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Learn about sustainable practices you can implement in your daily life to reduce your environmental footprint. Interactive sessions and take-home materials provided.</p>
+            <div class="flex justify-between items-center">
+              <a href="#" class="inline-flex items-center text-secondary-600 dark:text-secondary-400 font-medium hover:text-secondary-700 dark:hover:text-secondary-300 transition-colors">
+                Register Now 
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </a>
+              <!-- <span class="text-sm text-gray-500 dark:text-gray-400">45 spots left</span> -->
+            </div>
+          </div>
+        </div>
+
+     
+        <!-- Event 2 -->
+        <div data-aos="fade-up" class="event-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden" data-category="upcoming">
+          <div class="relative h-48">
+            <img src="https://placehold.co/800x600/f1f8e9/8bc34a?text=Youth+Leadership" alt="Youth Leadership Workshop" class="w-full h-full object-cover">
+            <div class="absolute top-4 left-4 bg-success-500 text-white px-3 py-1 rounded-md text-sm font-medium">
+              September 10, 2025
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Youth Leadership Workshop</h3>
+            <div class="flex items-center text-gray-600 dark:text-gray-300 mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span class="text-sm">Damaturu</span>
+            </div>
+            <div class="flex items-center text-gray-600 dark:text-gray-300 mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span class="text-sm">1:00 PM - 5:00 PM</span>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Empowering young leaders with skills in communication, project management, and community organizing. Open to youth ages 15-25.</p>
+            <div class="flex justify-between items-center">
+              <a href="#" class="inline-flex items-center text-success-600 dark:text-success-400 font-medium hover:text-success-700 dark:hover:text-success-300 transition-colors">
+                Register Now 
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </a>
+              <!-- <span class="text-sm text-gray-500 dark:text-gray-400">25 spots left</span> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Past Events Section -->
+  <section id="past-events" class="py-8 bg-gray-50 dark:bg-gray-800 theme-transition">
+    <div class="container mx-auto px-4">
+      <div data-aos="fade-up" class="mb-8">
+        <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">Past Events</h2>
+        <div class="w-20 h-1 bg-secondary-500 mb-6"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+        <!-- Past Event 1 -->
+        <div data-aos="fade-up" class="event-card bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden" data-category="past">
+          <div class="relative h-48">
+            <img src="assets/event-one.png" alt="Health Awareness Camp" class="w-full h-full object-cover">
+            <div class="absolute top-4 left-4 bg-gray-500 text-white px-3 py-1 rounded-md text-sm font-medium">
+              March 05, 2025
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Adult Literacy Program</h3>
+            <div class="flex items-center text-gray-600 dark:text-gray-300 mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span class="text-sm">Yobe State Agency for Mass Education (SAME)</span>
+            </div>
+            <div class="text-gray-600 dark:text-gray-300 mb-4 text-justify">
+              <p>
+                In a bid to strengthen partnership and collaboration, a team from Surwa Community and Education Development Initiative (SCEDI) paid an advocacy visit to the Yobe State Agency for Mass Education (SAME) on Wednesday, 5th March 2025. The SCEDI team, led by the Executive Director, was accompanied by senior officials, including the Education Officer, Data Management Officer, WASH Officer, and Finance and Admin Officer.
+              </p>
+            
+              <p>
+                The primary objective of the visit was to brief the Agency on SCEDI's ongoing adult literacy program, funded and implemented by the organization. The program, currently in its sixth month, provides free education to adult men and women, with the ultimate goal of mainstreaming them into formal junior and secondary schools after a nine-month period.
+              </p>
+            
+              <p>
+                During the visit, the SCEDI team engaged in fruitful discussions with the Executive Director of Yobe SAME, exploring avenues for collaboration and technical support to ensure the successful implementation of the adult literacy program. The meeting also provided an opportunity for SCEDI to seek guidance and expertise from the Agency in monitoring and evaluating the program.
+              </p>
+            
+              <p>
+                The advocacy visit underscores SCEDI's commitment to promoting education and community development in Yobe State. By working together, SCEDI and Yobe SAME aim to make a positive impact on the lives of adult learners and contribute to the overall development of the state.
+              </p>
+            </div>
+            
+            <div class="flex justify-between items-center">
+              <a href="#" class="inline-flex items-center text-primary-600 dark:text-primary-400 font-medium hover:text-primary-700 dark:hover:text-primary-300 transition-colors">
+                View Photos 
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </a>
+              <span class="text-sm text-gray-500 dark:text-gray-400">200+ attendees</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Past Event 2 -->
+        <div data-aos="fade-up" data-aos-delay="100" class="event-card bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden" data-category="past">
+          <div class="relative h-48">
+            <img src="assets/community.png" alt="Education Fair" class="w-full h-full object-cover">
+            <div class="absolute top-4 left-4 bg-gray-500 text-white px-3 py-1 rounded-md text-sm font-medium">
+              September, 2024
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Visitation to Adult Literacy Center</h3>
+            <div class="flex items-center text-gray-600 dark:text-gray-300 mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span class="text-sm">Damaturu</span>
+            </div>
+            <div class="text-gray-600 dark:text-gray-300 mb-4 text-justify">
+              <p class="mb-4">
+                The Surwa Community and Education Development Initiative (SCEDI) has taken a significant step towards promoting adult literacy in Damaturu with the launch of its self-funded "Partnership for Accelerated Adult Literacy Program" in September 2024. The program aims to equip adults with essential literacy and numeracy skills, preparing them for future formal education opportunities.
+              </p>
+            
+              <p class="mb-4">
+                The program, scheduled to run until 2027, has a nine-month first phase concluding in March 2025. SCEDI's Executive Director, accompanied by organization officers, recently visited adult literacy centers in Damaturu to monitor progress and ensure the initiative's effectiveness.
+              </p>
+            
+              <p class="mb-4">
+                SCEDI's dedication to education and community development is evident in this self-funded initiative. The organization's efforts demonstrate the importance of collaborative partnerships in promoting literacy and education.
+              </p>
+            </div>
+            
+            <div class="flex justify-between items-center">
+              <a href="#" class="inline-flex items-center text-secondary-600 dark:text-secondary-400 font-medium hover:text-secondary-700 dark:hover:text-secondary-300 transition-colors">
+                View Photos 
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </a>
+              <span class="text-sm text-gray-500 dark:text-gray-400">150+ attendees</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Past Event 3 -->
+        <div data-aos="fade-up" data-aos-delay="200" class="event-card bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden" data-category="past">
+          <div class="relative h-48">
+            <img src="assets/event-two.png" alt="Community Festival" class="w-full h-full object-cover">
+            <div class="absolute top-4 left-4 bg-gray-500 text-white px-3 py-1 rounded-md text-sm font-medium">
+              June 05, 2024
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2"> Nigerian Environmental Society (Yobe State Chapter)</h3>
+            <div class="flex items-center text-gray-600 dark:text-gray-300 mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span class="text-sm">Town Square, Damaturu</span>
+            </div>
+            <div class="text-gray-600 dark:text-gray-300 mb-4 text-justify">
+              <p class="mb-4">
+                Surwa Community and Education Development Initiative (SCEDI) demonstrated its commitment to environmental sustainability by participating in the World Environment Day 2024 event organized by the Nigerian Environmental Society (Yobe State Chapter). The event was held under the theme: <em>Land Restoration, Desertification, and Drought Resilience</em>.
+              </p>
+            
+              <p class="mb-4">
+                Through its participation, SCEDI aimed to inspire and encourage individuals, organizations, and policymakers to take proactive steps towards sustainable land management and the preservation of natural resources.
+              </p>
+            
+              <p class="mb-4">
+                As an organization dedicated to community development, SCEDI remains steadfast in its efforts to raise awareness, promote education, and drive positive change in environmental practices.
+              </p>
+            
+              <p class="mb-4">
+                By actively engaging local communities, promoting environmental education, and implementing sustainable practices, we can make a significant difference in creating a more resilient and sustainable future.
+              </p>
+            </div>            
+            <div class="flex justify-between items-center">
+              <a href="#" class="inline-flex items-center text-accent-600 dark:text-accent-400 font-medium hover:text-accent-700 dark:hover:text-accent-300 transition-colors">
+                View Photos 
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </a>
+              <span class="text-sm text-gray-500 dark:text-gray-400">500+ attendees</span>
+            </div>
+          </div>
+        </div>
+         <!-- Past Event 4 -->
+         <div data-aos="fade-up" data-aos-delay="200" class="event-card bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden" data-category="past">
+          <div class="relative h-48">
+            <img src="assets/community-three.png" alt="Community Festival" class="w-full h-full object-cover">
+            <div class="absolute top-4 left-4 bg-gray-500 text-white px-3 py-1 rounded-md text-sm font-medium">
+              May 28, 2024
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2"> United Nations Population Fund (UNFPA)</h3>
+            <div class="flex items-center text-gray-600 dark:text-gray-300 mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span class="text-sm">Government Day Junior Secondary School Bindigari, Damaturu </span>
+            </div>
+            <div class="text-gray-600 dark:text-gray-300 mb-4 text-justify">
+              <p class="mb-4">
+                Surwa Community and Education Development Initiative (SCEDI), in partnership with the United Nations Population Fund (UNFPA), organized a one-day sensitization session for adolescent girls on menstrual hygiene and gender-based violence (GBV) in schools.
+              </p>
+            
+              <p class="mb-4">
+                Menstrual Hygiene Day is celebrated annually on the 28th of May to raise awareness about menstrual health and hygiene among girls and women.
+              </p>
+            
+              <p class="mb-4">
+                The sensitization session, held at Government Day Junior Secondary School Bindigari in Damaturu, aimed to equip adolescent girls with effective knowledge and strategies for managing menstruation and addressing GBV in school settings.
+              </p>
+            
+              <p class="mb-4">
+                In line with this year’s theme, <strong>#PeriodFriendlyWorld</strong>, SCEDI and UNFPA distributed sanitary pads to 50 adolescent girls in the school to ensure access to essential menstrual hygiene products and uphold their dignity.
+              </p>
+            
+              <p class="mb-4">
+                Three presentations were delivered during the event on the topics of Prevention of Sexual Exploitation and Abuse (PSEA), Gender-Based Violence (GBV), and Menstrual Hygiene Management. The presentations were facilitated by Hajara Suleiman (UNFPA), Musa Bala Musa (UNFPA), and Dr. Hauwa Amshi, respectively.
+              </p>
+            
+              <p class="mb-4">
+                Together, we can create a <strong>#PeriodFriendlyWorld</strong>.
+              </p>
+            </div>
+                        
+            <div class="flex justify-between items-center">
+              <a href="#" class="inline-flex items-center text-accent-600 dark:text-accent-400 font-medium hover:text-accent-700 dark:hover:text-accent-300 transition-colors">
+                View Photos 
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </a>
+              <span class="text-sm text-gray-500 dark:text-gray-400">300+ attendees</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div data-aos="fade-up" class="text-center mt-12">
+        <a href="#" class="bg-primary-500 text-white px-6 py-3 rounded-md text-sm font-medium hover:bg-primary-600 transition-colors">
+          View All Past Events
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Host an Event Section -->
+  <section class="py-16 md:py-24 bg-primary-500 dark:bg-primary-700 text-white">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row items-center justify-between">
+        <div data-aos="fade-right" class="md:w-2/3 mb-8 md:mb-0">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">Want to Host an Event With Us?</h2>
+          <p class="text-primary-50 text-lg">
+            If you have an idea for a community event or would like to collaborate with us, we'd love to hear from you. Together, we can create meaningful experiences for our community.
+          </p>
+        </div>
+        <div data-aos="fade-left" class="flex flex-col sm:flex-row gap-4">
+          <a href="contact.html" class="bg-white text-primary-600 px-6 py-3 rounded-md text-center text-sm font-medium hover:bg-primary-50 transition-colors">
+            Contact Us
+          </a>
+          <a href="#" class="border-2 border-white text-white px-6 py-3 rounded-md text-center text-sm font-medium hover:bg-primary-600 transition-colors">
+            Submit Event Idea
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 dark:bg-gray-900 text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center space-x-2 mb-4">
+            <div class="relative h-30 w-40 bg-white flex items-center justify-center overflow-hidden">
+              <img src="assets/logo.png" alt="Surwa Initiative Logo" class="h-full w-full object-cover" />
+            </div>
+          </div>
+          <p class="text-gray-400 mb-4">
+            Surwa Community and Education Development Initiative is dedicated to empowering communities through education, sustainable development, and community engagement.
+          </p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+              </svg>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+              </svg>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li>
+              <a href="index.html" class="text-gray-400 hover:text-white transition-colors">Home</a>
+            </li>
+            <li>
+              <a href="about.html" class="text-gray-400 hover:text-white transition-colors">About</a>
+            </li>
+            <li>
+              <a href="mission.html" class="text-gray-400 hover:text-white transition-colors">Mission</a>
+            </li>
+            <li>
+              <a href="gallery.html" class="text-gray-400 hover:text-white transition-colors">Gallery</a>
+            </li>
+            <li>
+              <a href="events.html" class="text-gray-400 hover:text-white transition-colors">Events</a>
+            </li>
+            <li>
+              <a href="contact.html" class="text-gray-400 hover:text-white transition-colors">Contact</a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Programs</h3>
+          <ul class="space-y-2">
+            <li>
+              <a href="mission.html#education" class="text-gray-400 hover:text-white transition-colors">Education Support</a>
+            </li>
+            <li>
+              <a href="mission.html#community" class="text-gray-400 hover:text-white transition-colors">Community Engagement</a>
+            </li>
+            <li>
+              <a href="mission.html#sustainable" class="text-gray-400 hover:text-white transition-colors">Sustainable Development</a>
+            </li>
+            <li>
+              <a href="mission.html#youth" class="text-gray-400 hover:text-white transition-colors">Youth Empowerment</a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Contact</h3>
+          <ul class="space-y-2">
+            <li class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-500 mt-1 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span class="text-gray-400">Abba Ibrahim Housing Estate along Gujba Road, Damaturu Yobe State</span>
+            </li>
+            <li class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-secondary-500 mt-1 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              <span class="text-gray-400">info@surwainitiative.org</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <p class="text-gray-400 text-sm mb-4 md:mb-0">
+          &copy; <script>document.write(new Date().getFullYear())</script> Surwa Community and Education Development Initiative. All rights reserved.
+        </p>
+        <div class="flex space-x-6">
+          <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</a>
+          <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Theme Toggle Button -->
+  <div id="floating-theme-toggle" onclick="toggleTheme()">
+    <!-- Sun icon for dark mode -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+    </svg>
+    <!-- Moon icon for light mode -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+    </svg>
+  </div>
+
+  <!-- AOS Animation Library -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+  <!-- Main JavaScript -->
+  <script>
+    // Initialize AOS animation library
+    AOS.init({
+      duration: 800,
+      easing: 'ease-in-out',
+      once: true
+    });
+    
+    // Gallery Filter
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const eventItems = document.querySelectorAll('.event-card');
+    
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        
+        // Add active class to clicked button
+        button.classList.add('active');
+        
+        // Get filter value
+        const filterValue = button.getAttribute('data-filter');
+        
+        // Filter gallery items
+        if (filterValue === 'all') {
+          document.getElementById('upcoming-events').style.display = 'block';
+          document.getElementById('past-events').style.display = 'block';
+        } else if (filterValue === 'upcoming') {
+          document.getElementById('upcoming-events').style.display = 'block';
+          document.getElementById('past-events').style.display = 'none';
+        } else if (filterValue === 'past') {
+          document.getElementById('upcoming-events').style.display = 'none';
+          document.getElementById('past-events').style.display = 'block';
+        }
+      });
+    });
+    
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+    
+    // Close mobile menu when clicking on a link
+    const mobileLinks = mobileMenu.querySelectorAll('a');
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
+    // Theme toggle functionality
+    function toggleTheme() {
+      console.log("Theme toggle called");
+      const isDark = document.documentElement.classList.contains("dark");
+      if (isDark) {
+        document.documentElement.classList.remove("dark");
+        document.body.classList.remove("dark");
+        localStorage.setItem("theme", "light");
+      } else {
+        document.documentElement.classList.add("dark");
+        document.body.classList.add("dark");
+        localStorage.setItem("theme", "dark");
+      }
+    }
+    
+    // Check for saved theme preference or use system preference
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+      if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+        document.documentElement.classList.add('dark');
+        document.body.classList.add('dark');
+      }
+      
+      console.log("Theme initialized");
+    });
+  </script>
+</body>
+</html>
